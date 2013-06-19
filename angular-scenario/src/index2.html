@@ -1,0 +1,78 @@
+<doctype HTML>
+<html ng-app="app">
+  <head>
+    <title>angular_rocks</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.js" type="text/javascript"></script>
+    <script src="http://code.angularjs.org/1.1.5/angular-resource.js"></script>
+    <script type="text/javascript">
+      "use strict";
+      var app = angular.module("app", ['ngResource']);
+
+      app.config(function($routeProvider) {
+        $routeProvider.when("/", { controller: 'FrontCtrl as fr', templateUrl: 'frontTmpl.html' })
+        $routeProvider.when("/first", { controller: 'FirstCtrl as f', templateUrl: 'firstTmpl.html'/*, resolve: { Snap: ["Dummy", "$route", function(d, r){ return d.defer; }]  }*/ })
+        $routeProvider.when("/second", { controller: 'SecondCtrl as s', templateUrl: 'secondTmpl.html' })
+        $routeProvider.otherwise({ redirectTo: '/'});
+      });
+
+      app.controller("FrontCtrl", function() {
+
+      });
+
+      app.controller("FirstCtrl", function($location/*, Snap*/) {
+        /*this.defer = Snap;*/
+        this.click = function() {
+          $location.path("/second");
+        }
+
+      });
+
+      app.controller("SecondCtrl", function() {
+
+      });
+
+      app.service("Dummy", function($rootScope, $q) {
+        var defer = function asyncGreet(name) {
+          var deferred = $q.defer();
+         
+          setTimeout(function() {
+            // since this fn executes async in a future turn of the event loop, we need to wrap
+            // our code into an $apply call so that the model changes are properly observed.
+            $rootScope.$apply(function() {
+              //if (okToGreet(name)) {
+                deferred.resolve('Hello, ' + name + '!');
+              //} else {
+              //  deferred.reject('Greeting ' + name + ' is not allowed.');
+              //}
+            });
+          }, 200);
+         
+          return deferred.promise;
+        }
+
+        return {
+          defer: defer('foobar')
+        }
+      });
+
+    </script>
+
+  </head>
+  <body>
+    <div ng-view></div>
+
+    <script type="text/ng-template" id="frontTmpl.html">
+      <h1>Hello world</h1>
+    </script>
+
+    <script type="text/ng-template" id="firstTmpl.html">
+      <h1>first</h1>
+      <h3>{{f.defer}}</h3>
+      <input type="button" value="Eksporter alle stationer indenfor mediet" ng-click="f.click()" />
+    </script>
+
+    <script type="text/ng-template" id="secondTmpl.html">
+      <h1>second</h1>
+    </script>
+  </body>
+</html>

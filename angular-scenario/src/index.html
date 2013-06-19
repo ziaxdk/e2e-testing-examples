@@ -1,0 +1,97 @@
+<doctype HTML>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.js"></script>
+  <script src="http://code.angularjs.org/1.1.5/angular-resource.js"></script>
+  <script type="text/javascript">
+    "use strict";
+    var app = angular.module("app", ['ngResource']);
+
+
+    app.config(function($provide){
+      console.log('app.config');
+      $provide.provider('Storage', function() {
+
+        var _keyName;
+        return {
+          setKey: function(keyName) {
+            _keyName = keyName;
+          },
+          $get: function($window) {
+            var queue;
+            
+            var init = function() {
+              console.log('Storage init', _keyName);
+              var q = $window.localStorage.getItem(_keyName);
+              if (!q) {
+                clear();
+                return;
+              }
+              queue = angular.fromJson(q);
+            };
+
+            var add = function (){
+              queue.push({foo: "bar", key: "val"});
+              store();
+            }
+            var clear = function () {
+              queue = [];
+              store();
+            }
+            var store = function() {
+              $window.localStorage.setItem(_keyName, angular.toJson(queue));
+              console.log('stored');
+            }
+
+            init();
+            return {
+              count: function() { return queue.length; },
+              queue: function() { return queue },
+              add: add,
+              clear: clear
+            }
+          }
+        }
+      });
+
+    });
+
+    app.config(function(StorageProvider) {
+      StorageProvider.setKey("queue");
+    });
+
+    app.controller("body", function($scope, Storage, Rep){
+      console.log("app.controller.body");
+      this.count = Storage.count;
+      this.queue = Storage.queue;
+      $scope.click = function() {
+        Storage.add();
+      }
+      $scope.clear = function() {
+        Storage.clear();
+      }
+      $scope.transmit = function() {
+        Rep.bulk(Storage.queue());
+      };
+
+    });
+
+    app.factory("Rep", function($resource) {
+      return $resource("http://localhost/foo/bar", {}, {
+        bulk: { method: "POST", params: { action: 'bulk'}, isArray: true }
+      });
+    });
+
+
+  </script>
+</head>
+<body ng-app="app" ng-controller="body as b">
+  Count: {{b.count()}} | {{b.queue().length}}
+  <h6 id="count">{{b.queue().length}}</h6>
+  <pre>{{b.queue()|json}}</pre>
+  <hr/>
+  <input id="btnadd" type="button" value="Add" ng-click="click()" />
+  <input id="btnclr" type="button" value="Clear" ng-click="clear()" />
+  <input type="button" value="Transmit" ng-click="transmit()" />
+</body>
+</html>

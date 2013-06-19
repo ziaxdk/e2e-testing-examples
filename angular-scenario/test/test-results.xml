@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<testsuites>
+  <testsuite name="Chrome 27.0.1453 (Windows 7)" package="undefined" timestamp="2013-06-19T13:18:01" id="0" hostname="DKCPW00165" tests="4" errors="0" failures="0" time="0.79">
+    <properties>
+      <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.110 Safari/537.36"/>
+    </properties>
+    <testcase name="title" time="0.282" classname="Chrome 27.0.1453 (Windows 7).kol"/>
+    <testcase name="should contain &quot;first&quot; in h1" time="0.158" classname="Chrome 27.0.1453 (Windows 7).kol"/>
+    <testcase name="should contain &quot;second&quot; in h1" time="0.16" classname="Chrome 27.0.1453 (Windows 7).kol"/>
+    <testcase name="first clicks button and go to second" time="0.19" classname="Chrome 27.0.1453 (Windows 7).kol"/>
+    <system-out><![CDATA[
+]]></system-out>
+    <system-err/>
+  </testsuite>
+</testsuites>

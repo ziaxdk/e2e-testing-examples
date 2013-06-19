@@ -1,0 +1,21 @@
+{
+  "name": "angular-scenario",
+  "version": "0.0.1",
+  "description": "Simple AngularJs Scenario runner example",
+  "devDependencies": {
+    "karma-ng-scenario": "0.0.1",
+    "karma-chrome-launcher": "0.0.1",
+    "karma-script-launcher": "0.0.1",
+    "karma-jasmine": "0.0.1",
+    "karma-requirejs": "0.0.1",
+    "karma-firefox-launcher": "0.0.2",
+    "karma-coffee-preprocessor": "0.0.1",
+    "karma-phantomjs-launcher": "0.0.2",
+    "karma-junit-reporter": "0.0.1",
+    "karma": "~0.9.3",
+    "express": "~3.2.6"
+  },
+  "author": "ziaxdk",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
