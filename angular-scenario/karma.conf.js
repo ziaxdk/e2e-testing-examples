@@ -16,7 +16,7 @@ module.exports = function(karma) {
       '/': 'http://localhost:8080/'
     },
 
-    browsers: [],
+    browsers: ['Chrome', 'Firefox'],
 
     reporters: ['junit', 'progress'],
 
@@ -28,7 +28,7 @@ module.exports = function(karma) {
     //transports: ['websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling'],
     transports: ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling'],
 
-    singleRun: false,
+    singleRun: true,
 
     plugins: [
       'karma-ng-scenario',
